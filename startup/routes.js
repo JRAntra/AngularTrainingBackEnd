@@ -1,11 +1,10 @@
+const express = require('express');
+const cors = require('cors');
 const category = require('../routes/category-route');
 const product = require('../routes/product-route');
 const user = require('../routes/user-route');
 const login = require('../routes/login-router');
 const error = require('../middleware/error');
-const cors = require('cors');
-
-const express = require('express');
 
 module.exports = function (app) {
     app.use(express.json());
