@@ -1,29 +1,24 @@
-const express = require('express');
-const morgan = require('moment');
+const mongoose = require("mongoose");
+const express = require("express");
 const app = express();
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+const mongoDB =
+    "mongodb+srv://AntraShare:antrashare2022@antrashare.z1kmw.mongodb.net/AntraShare?retryWrites=true&w=majority";
 
+// mongoose.connect(mongoDB);
+// const db = mongoose.connection;
+// db.on("error", (error) => {
+//     console.log("There is an error", error);
+// });
+// db.once("open", () => console.log("mongodb connect"));
 
-// in the terminal: export NODE_ENV=development
-if (app.get('env') === 'development') {
-    app.use(morgan('tiny'));
-    console.log('Morgan enabled...');
-}
+mongoose.connect(mongoDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log(`Connected to ${mongoDB}...`);
+}).catch(console.log);
 
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('Hello world');
-});
-app.get('/api/courses', (req, res) => {
-    res.send([1, 2, 3]);
-});
-app.get('/api/courses/:year/:month', (req, res) => {
-    res.send(req.params);
-});
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Listening on port ${port}...`)
+app.listen(3567, () => {
+    console.log("server...");
 });
