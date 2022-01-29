@@ -1,4 +1,0 @@
-{
-    "jwtPrivateKey": "angularSecurity_jwt",
-    "db": "mongodb://mongo:27017"
-}
