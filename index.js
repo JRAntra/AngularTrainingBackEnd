@@ -13,3 +13,8 @@ const server = app.listen(port, () => {
 });
 
 module.exports = server;
+
+// const routerDebugger = require('debug')('app:debugrouter');
+// routerDebugger('show this message');
+
+// in terminal: DEBUG=app:* nodemon index.js
