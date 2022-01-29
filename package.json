@@ -13,6 +13,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mongoose": "^4.12.3",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "winston": "^3.5.0",
     "winston-mongodb": "^5.0.7"
