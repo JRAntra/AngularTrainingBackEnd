@@ -1,4 +1,4 @@
 {
     "jwtPrivateKey": "1234",
-    "db": "mongodb://localhost:27017/vidly_tests"
+    "db": "mongodb://localhost:27017/david_tests"
 }

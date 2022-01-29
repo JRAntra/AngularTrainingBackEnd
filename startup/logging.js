@@ -11,7 +11,7 @@ module.exports = function (params) {
 
     winston.add(new winston.transports.File({ filename: 'logfile.log' }));
     // winston.add(new winston.transports.MongoDB({
-    //     db: 'mongodb://localhost:27017/vidly',
+    //     db: 'mongodb://localhost:27017/david',
     //     level: 'info',
     //     collection: 'log'
     // }));
