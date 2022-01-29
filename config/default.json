@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "angularSecurity_jwt",
+    "db": "mongodb://localhost:27017/angularSecurityBackEnd"
+}
