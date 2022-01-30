@@ -20,14 +20,13 @@ const userProfileSchema = new mongoose.Schema({
         required: true,
         minlength: 3,
         maxlength: 50,
-        unique: true,
+        // unique: true,
     },
     password: {
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 50,
-        unique: true,
+        maxlength: 1024,
     },
     userRole: {
         type: String,
@@ -38,9 +37,9 @@ const userProfileSchema = new mongoose.Schema({
     phone: Number
 });
 
-const UserProfile = mongoose.model("User", userProfileSchema);
+const UserProfile = mongoose.model("UserProfile", userProfileSchema);
 
-userProfileSchema.methods.generateAuthToken = function () {
+UserProfile.generateAuthToken = function () {
     const token = jwt.sign(
         // jwt hold data;
         {
@@ -64,8 +63,15 @@ userProfileSchema.methods.generateAuthToken = function () {
 
 const validateUser = (user) => {
     const schema = Joi.object({
+        name: Joi.string(),
+        userName: Joi.string(),
         userEmail: Joi.string().min(3).max(50).required(),
-        password: Joi.string().min(3).max(50).required(),
+        password: Joi.string().min(3).max(1024).required(),
+
+        userRole: Joi.string(),
+        age: Joi.number(),
+        gender: Joi.string(),
+        phone: Joi.number(),
     });
     return schema.validate(user);
 };

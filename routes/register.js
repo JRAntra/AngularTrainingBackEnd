@@ -1,10 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcrypt'); // hush password
-const _ = require('lodash');
+const bcrypt = require("bcrypt"); // hush password
+const _ = require("lodash");
 
-const { UserProfile, validate } = require('../models/user');
-
+const { UserProfile, validate } = require("../models/userProfile");
 
 // router.get("/", async (req, res) => {
 //     const user = await Product.find().sort({ name: 1 });
@@ -22,15 +21,18 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    console.log(req.body);
+
     const { error } = validate(req.body);
     if (error) {
+        console.log(error);
         return res.status(400).send(error.details[0].message);
     }
 
-    const user = await UserProfile.findOne({ userEmail: req.body.userEmail });
-    if (user) {
-        return res.status(400).send('User already registered.');
+    const userCheck = await UserProfile.findOne({
+        userEmail: req.body.userEmail,
+    });
+    if (userCheck) {
+        return res.status(400).send("User already registered.");
     }
 
     const user = new UserProfile({
@@ -42,17 +44,19 @@ router.post("/", async (req, res) => {
         userRole: req.body.userRole,
         age: req.body.age,
         gender: req.body.gender,
-        phone: req.body.phone
+        phone: req.body.phone,
     });
-    const salt = await bcrypt.genSalt(10); // system hold this part for every user;
-    user.password = await bcrypt.hash(user.password, salt); // create password;
-    
+    // Encrypting password;
+    const salt = await bcrypt.genSalt(10); 
+    user.password = await bcrypt.hash(user.password, salt);
+    // Save to database;
     await user.save();
-
-    const token = user.generateAuthToken(); // put the jwt token in the header
+    // Generate token;
+    const token = UserProfile.generateAuthToken.call(user);
     
-    res.header('bearerToken', token)
-        .send(_.pick(user, ['userEmail', 'password', 'userRole', 'phone']));
+    res.header("bearerToken", token).send(
+        _.pick(user, ["userEmail", "password", "userRole", "phone"])
+    );
 });
 
 // router.put("/:id", async (req, res) => {

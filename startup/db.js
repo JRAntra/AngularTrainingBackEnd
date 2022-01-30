@@ -6,7 +6,6 @@ module.exports = function (params) {
     const db = config.get("db");
 
     mongoose.connect(db, {
-        useCreateIndex: true,
         useNewUrlParser: true,
         useUnifiedTopology: true
     }).then(() => {

@@ -6,6 +6,8 @@ const Joi = require("@hapi/joi");
 const { UserProfile } = require('../models/userProfile');
 
 router.post("/", async (req, res) => {
+
+
     const { error } = validate(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
@@ -13,9 +15,9 @@ router.post("/", async (req, res) => {
 
     let user = await UserProfile.findOne({ userEmail: req.body.userEmail });
     if (!user) {
-        return res.status(400).send('Invalid email or password.');
+        return res.status(400).send('Cannot find this email.');
     }
-
+    console.log(user);
     const validPassword = await bcrypt.compare(
         req.body.password,
         user.password
@@ -25,7 +27,8 @@ router.post("/", async (req, res) => {
         return res.status(400).send('Invalid email or password.');
     }
 
-    const token = user.generateAuthToken();
+    const token = UserProfile.generateAuthToken.call(user);
+    console.log(token);
 
     const infoBack = {
         name: user.name,
@@ -45,7 +48,7 @@ router.post("/", async (req, res) => {
 
 const validate = (user) => {
     const schema = Joi.object({
-        userName: Joi.string().min(3).max(50).required(),
+        userEmail: Joi.string().min(3).max(50).required(),
         password: Joi.string().min(3).max(50).required(),
     });
     return schema.validate(user);
