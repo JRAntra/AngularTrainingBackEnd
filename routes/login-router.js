@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt'); // hush password
 const Joi = require("@hapi/joi");
 
-const { User } = require('../models/user');
+const { UserProfile } = require('../models/userProfile');
 
 router.post("/", async (req, res) => {
     const { error } = validate(req.body);
@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    let user = await User.findOne({ name: req.body.userName });
+    let user = await UserProfile.findOne({ userEmail: req.body.userEmail });
     if (!user) {
         return res.status(400).send('Invalid email or password.');
     }
@@ -28,16 +28,16 @@ router.post("/", async (req, res) => {
     const token = user.generateAuthToken();
 
     const infoBack = {
-        userName: user.name,
+        name: user.name,
+        userName: user.userName,
+        userEmail: user.userEmail,
+
+        userRole: user.userRole,
+        age: user.age,
+        gender: user.gender,
+        phone: user.phone,
+
         bearerToken: token,
-        isAuthenticated: user.isAdmin,
-        claim: {
-            canAccessProducts: user.claim.canAccessProducts,
-            canAddProducts: user.claim.canAddProducts,
-            canSaveProduct: user.claim.canSaveProduct,
-            canAccessCategories: user.claim.canAccessCategories,
-            canAddCategory: user.claim.canAddCategory,
-        }
     }
 
     res.header('bearerToken', token).send(infoBack);
@@ -45,8 +45,8 @@ router.post("/", async (req, res) => {
 
 const validate = (user) => {
     const schema = Joi.object({
-        userName: Joi.string().min(3).max(255).required(),
-        password: Joi.string().min(3).max(255).required(),
+        userName: Joi.string().min(3).max(50).required(),
+        password: Joi.string().min(3).max(50).required(),
     });
     return schema.validate(user);
 }
