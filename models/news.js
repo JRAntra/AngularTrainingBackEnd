@@ -28,7 +28,9 @@ const newsSchema = new mongoose.Schema({
     ],
     likedIdList: [
         {
-            userId: String,
+            type: new mongoose.Schema({
+                userId: String,
+            })
         },
     ],
 });
@@ -38,7 +40,7 @@ const News = mongoose.model("News", newsSchema);
 const validateNews = (news) => {
     const schema = Joi.object({
         publisherName: Joi.string(),
-        publishedTime: Joi.date(),
+        publishedTime: Joi.date().optional(),
         content: Joi.object({
             image: Joi.string().optional(),
             video: Joi.string().optional(),
@@ -47,7 +49,7 @@ const validateNews = (news) => {
         comment: Joi.array().items(
             Joi.object({
                 publisherName: Joi.string(),
-                publishedTime: Joi.date(),
+                publishedTime: Joi.date().optional(),
                 content: Joi.object({
                     image: Joi.string().optional(),
                     video: Joi.string().optional(),
