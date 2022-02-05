@@ -8,7 +8,7 @@ const newsSchema = new mongoose.Schema({
         type: new mongoose.Schema({
             image: String,
             video: String,
-            text: String,
+            text: String ,
         }),
     },
     comment: [
@@ -28,7 +28,7 @@ const newsSchema = new mongoose.Schema({
     ],
     likedIdList: [
         {
-            type: String,
+            userId: String,
         },
     ],
 });
@@ -38,24 +38,24 @@ const News = mongoose.model("News", newsSchema);
 const validateNews = (news) => {
     const schema = Joi.object({
         publisherName: Joi.string(),
-        publishedTime: Joi.date().optional(),
+        publishedTime: Joi.date(),
         content: Joi.object({
-            image: Joi.string(),
-            video: Joi.string(),
-            text: Joi.string(),
+            image: Joi.string().optional(),
+            video: Joi.string().optional(),
+            text: Joi.string().optional(),
         }),
         comment: Joi.array().items(
             Joi.object({
                 publisherName: Joi.string(),
                 publishedTime: Joi.date(),
                 content: Joi.object({
-                    image: Joi.string(),
-                    video: Joi.string(),
-                    text: Joi.string(),
+                    image: Joi.string().optional(),
+                    video: Joi.string().optional(),
+                    text: Joi.string().optional(),
                 }),
             })
         ),
-        likedIdList: Joi.array().items(Joi.string()),
+        likedIdList: Joi.array().items({userId: Joi.string()}).optional(),
     });
     return schema.validate(news);
 };
