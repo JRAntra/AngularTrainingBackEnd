@@ -38,11 +38,12 @@ router.post("/", async (req, res) => {
 // })
 
 router.patch("/addComment/:id", async (req, res) => {
-  console.log(req.body);
-  // const { error } = validate(req.body);
-  // if (error) return res.status(400).send(error.details[0].message);
+  const news = await News.find({ _id: req.params.id });
+  if (!news.length) {
+      return res.status(404).send("Story not found.");
+  }
 
-  const query = { id: req.params.id };
+  const query = { _id: req.params.id };
   const update = {
     $push: {
       comment: {
@@ -65,6 +66,8 @@ router.patch("/addComment/:id", async (req, res) => {
       }
     })
     .catch((err) => console.error(`Failed to add comment: ${err}`));
+
+  res.send(await News.find(query));
 });
 
 router.delete("/deletePost/:id", async (req, res) => {
@@ -74,18 +77,7 @@ router.delete("/deletePost/:id", async (req, res) => {
     return res.status(404).send("Post is not exist.");
 
   await News.deleteOne({ _id: req.params.id });
-  // res.send(await News.find());
   res.send("Post has been deleted.");
-
-  // News.deleteOne(query)
-  //   .then((result) => {
-  //     if (result.deletedCount === 1) {
-  //       res.send("Post has been deleted");
-  //     } else {
-  //       res.send("Post is not exist ");
-  //     }
-  //   })
-  //   .catch((err) => console.error(`Failed to delete the post: ${err}`));
 });
 
 // const validateQuestion = question => {
