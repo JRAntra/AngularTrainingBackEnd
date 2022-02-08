@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
 router.patch("/addComment/:id", async (req, res) => {
   const news = await News.find({ _id: req.params.id });
   if (!news.length) {
-      return res.status(404).send("Story not found.");
+      return res.status(404).send(JSON.stringify("Story not found."));
   }
 
   const query = { _id: req.params.id };
@@ -74,10 +74,10 @@ router.delete("/deletePost/:id", async (req, res) => {
   const news = await News.find({ _id: req.params.id });
 
   if (!news.length)
-    return res.status(404).send("Post is not exist.");
+    return res.status(404).send(JSON.stringify("Post is not exist."));
 
   await News.deleteOne({ _id: req.params.id });
-  res.send("Post has been deleted.");
+  res.send(JSON.stringify("Post has been deleted."));
 });
 
 // const validateQuestion = question => {
