@@ -58,7 +58,7 @@ router.patch("/addComment/:id", async (req, res) => {
     },
   };
   const options = { upsert: false };
-  News.updateOne(query, update, options)
+  await News.updateOne(query, update, options)
     .then((result) => {
       const { matchedCount, modifiedCount } = result;
       if (matchedCount && modifiedCount) {
