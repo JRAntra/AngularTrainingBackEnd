@@ -20,6 +20,28 @@ router.get("/:id", async (req, res) => {
     res.send(user);
 });
 
+router.get("checkexist/:userEmail", async (req, res) => {
+    console.log(req.params.userEmail);
+    
+    const user = await UserProfile.findOne({ userEmail: req.params.userEmail });
+   
+    if (!user) {
+        return res.status(404);
+    }
+    res.send(user);
+});
+
+router.get("checkexist/:username", async (req, res) => {
+
+    
+    const user = await UserProfile.findOne({ userName: req.params.username });
+   
+    if (!user) {
+        return res.status(404);
+    }
+    res.send(user);
+});
+
 router.post("/", async (req, res) => {
 
     const { error } = validate(req.body);
