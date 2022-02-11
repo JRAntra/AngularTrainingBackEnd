@@ -5,8 +5,8 @@ const Joi = require("@hapi/joi");
 
 const { UserProfile } = require('../models/userProfile');
 
-router.get("/getProfile/:userEmail", async (req, res) => {  
-    const user = await UserProfile.findOne({ userEmail: req.params.userEmail });
+router.get("/getProfile/:username", async (req, res) => {  
+    const user = await UserProfile.findOne({ userName: req.params.username });
     if (!user) {
         return res.status(404).send("user not found.");
     }
