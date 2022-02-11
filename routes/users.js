@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt'); // hush password
+const bcrypt = require('bcryptjs'); // hush password
 const Joi = require("@hapi/joi");
 
 const { UserProfile } = require('../models/userProfile');

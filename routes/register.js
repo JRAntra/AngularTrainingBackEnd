@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt"); // hush password
+const bcrypt = require("bcryptjs"); // hush password
 const _ = require("lodash");
 
 const { UserProfile, validate } = require("../models/userProfile");
@@ -11,7 +11,7 @@ const { UserProfile, validate } = require("../models/userProfile");
 //     res.send(product);
 // });
 
-router.get("/:id", async (req, res) => {
+router.get("/getUserById/:id", async (req, res) => {
     console.log(req.params);
     const user = await UserProfile.findOne({ _id: req.params.id });
     if (!user) {
@@ -20,29 +20,29 @@ router.get("/:id", async (req, res) => {
     res.send(user);
 });
 
-router.get("checkexist/:userEmail", async (req, res) => {
+router.get("/checkExistByEmail/:userEmail", async (req, res) => {
     console.log(req.params.userEmail);
     
-    const user = await UserProfile.findOne({ userEmail: req.params.userEmail });
+    const user = await UserProfile.findOne({ userEmail: req.params.userEmail.toLowerCase() });
    
     if (!user) {
-        return res.status(404);
+        return res.send(JSON.stringify("Email is OK to use."));
     }
-    res.send(user);
+    res.status(404).send("Email has been registered.")
 });
 
-router.get("checkexist/:username", async (req, res) => {
+router.get("/checkExistByUsername/:username", async (req, res) => {
 
     
-    const user = await UserProfile.findOne({ userName: req.params.username });
+    const user = await UserProfile.findOne({ userName: req.params.username.toLowerCase() });
    
     if (!user) {
-        return res.status(404);
+        return res.send(JSON.stringify("username is OK to use"));
     }
-    res.send(user);
+    res.status(404).send(JSON.stringify("username has been used"));
 });
 
-router.post("/", async (req, res) => {
+router.post("/createNewAccount", async (req, res) => {
 
     const { error } = validate(req.body);
     if (error) {
@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
     }
 
     const userCheck = await UserProfile.findOne({
-        userEmail: req.body.userEmail,
+        userEmail: req.body.userEmail.toLowerCase(),
     });
     if (userCheck) {
         return res.status(400).send("User already registered.");
@@ -60,7 +60,7 @@ router.post("/", async (req, res) => {
     const user = new UserProfile({
         name: req.body.name,
         userName: req.body.userName,
-        userEmail: req.body.userEmail,
+        userEmail: req.body.userEmail.toLowerCase(),
         password: req.body.password,
 
         userRole: req.body.userRole,
