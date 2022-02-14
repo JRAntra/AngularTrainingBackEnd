@@ -26,9 +26,9 @@ router.get("/checkExistByEmail/:userEmail", async (req, res) => {
     const user = await UserProfile.findOne({ userEmail: req.params.userEmail.toLowerCase() });
    
     if (!user) {
-        return res.send(JSON.stringify("Email is OK to use."));
+        res.status(404).send(JSON.stringify("Email is OK to use."));
     }
-    res.status(404).send("Email has been registered.")
+    return res.send(JSON.stringify("Email has been registered."));
 });
 
 router.get("/checkExistByUsername/:username", async (req, res) => {
@@ -37,9 +37,10 @@ router.get("/checkExistByUsername/:username", async (req, res) => {
     const user = await UserProfile.findOne({ userName: req.params.username.toLowerCase() });
    
     if (!user) {
-        return res.send(JSON.stringify("username is OK to use"));
+        res.status(404).send(JSON.stringify("username is OK to use"));
     }
-    res.status(404).send(JSON.stringify("username has been used"));
+    return res.send(JSON.stringify("username has been used"));
+    
 });
 
 router.post("/createNewAccount", async (req, res) => {
