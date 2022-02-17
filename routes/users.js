@@ -12,6 +12,9 @@ router.get("/getProfile/:username", async (req, res) => {
     }
     res.send(user);
 });
-
+router.get("/getAllUsers", async (req, res) => {
+    const users = await UserProfile.find().sort({ id: 1 });
+    res.send(users);
+  });
 
 module.exports = router;
