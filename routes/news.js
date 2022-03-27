@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 const { News, validate } = require("../models/news");
 
 // router.get('/', auth, async (req, res) => {
-router.get("/", async (req, res) => {
+router.get("/",  async (req, res) => {
   const news = await News.find().sort({ id: 1 });
   res.send(news);
 });

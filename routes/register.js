@@ -64,7 +64,7 @@ router.post("/createNewAccount", async (req, res) => {
         userEmail: req.body.userEmail.toLowerCase(),
         password: req.body.password,
 
-        userRole: req.body.userRole,
+        userRole: 'user',
         age: req.body.age,
         gender: req.body.gender,
         phone: req.body.phone,
