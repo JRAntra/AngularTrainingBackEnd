@@ -6,15 +6,15 @@ const auth = require("../middleware/auth");
 const { News, validate } = require("../models/news");
 
 // router.get('/', auth, async (req, res) => {
-router.get("/",  async (req, res) => {
+router.get("/", auth, async (req, res) => {
   const news = await News.find().sort({ id: 1 });
   res.send(news);
 });
 
-// router.get('/:id', async (req, res) => {
-//     const news = await News.findOne({id: req.params.id});
-//     res.send(news);
-// });
+router.get('/:id', async (req, res) => {
+    const news = await News.findOne({id: req.params.id});
+    res.send(news);
+});
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
