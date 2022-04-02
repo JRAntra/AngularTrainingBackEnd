@@ -116,3 +116,10 @@ router.post("/createNewAccount", async (req, res) => {
 // });
 
 module.exports = router;
+
+
+// interface User {
+//     ...
+//     userRole: 'user' | 'admin',
+//     ...
+// }
