@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Joi = require("@hapi/joi");
+const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 
 const { News, validate } = require("../models/news");
@@ -78,6 +79,21 @@ router.delete("/deletePost/:id", async (req, res) => {
 
   await News.deleteOne({ _id: req.params.id });
   res.send(JSON.stringify("Post has been deleted."));
+});
+
+router.delete('/deleteComment/:postId/:commentId', async (req, res) => {
+  try {
+    let result = await News.updateOne(
+      { _id: req.params.postId },
+      {
+        $pull: { "comment": { _id: req.params.commentId } }
+      }
+    );
+    res.send(result);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Something went wrong");
+  }
 });
 
 // const validateQuestion = question => {
