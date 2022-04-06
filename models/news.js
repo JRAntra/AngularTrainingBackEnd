@@ -1,5 +1,6 @@
 const Joi = require("@hapi/joi");
 const mongoose = require("mongoose");
+// const mongoosePaginate = require('mongoose-paginate');
 
 const newsSchema = new mongoose.Schema({
     publisherName: String,
@@ -34,6 +35,7 @@ const newsSchema = new mongoose.Schema({
         },
     ],
 });
+// newsSchema.plugin(mongoosePaginate); // <---- paginate
 
 const News = mongoose.model("News", newsSchema);
 
