@@ -56,7 +56,7 @@ const validateNews = (news) => {
                     image: Joi.string().optional(),
                     video: Joi.string().optional(),
                     text: Joi.string().optional(),
-                }),
+                }).optional(),
             })
         ),
         likedIdList: Joi.array().items({userId: Joi.string()}).optional(),
