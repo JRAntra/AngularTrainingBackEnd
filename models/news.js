@@ -41,7 +41,7 @@ const News = mongoose.model("News", newsSchema);
 
 const validateNews = (news) => {
     const schema = Joi.object({
-        publisherName: Joi.string(),
+        publisherName: Joi.string().required(),
         publishedTime: Joi.date().optional(),
         content: Joi.object({
             image: Joi.string().optional(),
@@ -50,7 +50,7 @@ const validateNews = (news) => {
         }),
         comment: Joi.array().items(
             Joi.object({
-                publisherName: Joi.string(),
+                publisherName: Joi.string().required(),
                 publishedTime: Joi.date().optional(),
                 content: Joi.object({
                     image: Joi.string().optional(),
