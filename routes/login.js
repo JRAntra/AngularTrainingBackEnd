@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    let user = await UserProfile.findOne({ userEmail: req.body.userEmail.toLowercase() });
+    let user = await UserProfile.findOne({ userEmail: req.body.userEmail.toLowerCase() });
     if (!user) {
         return res.status(400).send('Cannot find this email.');
     }
